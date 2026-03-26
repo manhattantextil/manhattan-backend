@@ -6,6 +6,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// ================= VALIDAR =================
 app.post('/validar', async (req, res) => {
   const { tipo, numero, codigoBarras, usuario } = req.body;
 
@@ -13,48 +14,18 @@ app.post('/validar', async (req, res) => {
     return res.json({ valido: false, erro: 'Dados incompletos' });
   }
 
-  try {
-  //   const respostaERP = await axios.post('https://SEU_ERP_AQUI/api/validar', {
-  //     tipo,
-  //     numero,
-  //     codigoBarras,
-  //     usuario
-  //   }, { timeout: 5000 });
+  // 🔧 SIMULAÇÃO (até integrar com ERP)
+  if (codigoBarras === "123456") {
+    return res.json({ valido: true });
+  }
 
-  //   return res.json(respostaERP.data);
-
-  // } catch (erro) {
-  //   return res.json({
-  //     valido: false,
-  //     erro: 'Erro ao comunicar com ERP'
-  //   });
-  // }
-
-    app.post('/validar', async (req, res) => {
-      const { tipo, numero, codigoBarras, usuario } = req.body;
-
-      if (!tipo || !numero || !codigoBarras) {
-        return res.json({ valido: false, erro: 'Dados incompletos' });
-      }
-
-      // SIMULAÇÃO
-      if (codigoBarras === "123456") {
-        return res.json({ valido: true });
-      }
-
-      return res.json({
-        valido: false,
-        erro: 'Código inválido'
-      });
-    });
-
+  return res.json({
+    valido: false,
+    erro: 'Código inválido'
+  });
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Servidor rodando em http://localhost:${PORT}`);
-});
-
+// ================= LOGIN =================
 const usuarios = {
   "roberto": "1223",
   "marcos": "4556",
@@ -74,4 +45,10 @@ app.post('/login', (req, res) => {
   }
 
   return res.json({ ok: true, usuario: user });
+});
+
+// ================= SERVER =================
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
 });
