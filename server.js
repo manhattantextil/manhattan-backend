@@ -14,21 +14,40 @@ app.post('/validar', async (req, res) => {
   }
 
   try {
-    const respostaERP = await axios.post('https://SEU_ERP_AQUI/api/validar', {
-      tipo,
-      numero,
-      codigoBarras,
-      usuario
-    }, { timeout: 5000 });
+  //   const respostaERP = await axios.post('https://SEU_ERP_AQUI/api/validar', {
+  //     tipo,
+  //     numero,
+  //     codigoBarras,
+  //     usuario
+  //   }, { timeout: 5000 });
 
-    return res.json(respostaERP.data);
+  //   return res.json(respostaERP.data);
 
-  } catch (erro) {
-    return res.json({
-      valido: false,
-      erro: 'Erro ao comunicar com ERP'
+  // } catch (erro) {
+  //   return res.json({
+  //     valido: false,
+  //     erro: 'Erro ao comunicar com ERP'
+  //   });
+  // }
+
+    app.post('/validar', async (req, res) => {
+      const { tipo, numero, codigoBarras, usuario } = req.body;
+
+      if (!tipo || !numero || !codigoBarras) {
+        return res.json({ valido: false, erro: 'Dados incompletos' });
+      }
+
+      // SIMULAÇÃO
+      if (codigoBarras === "123456") {
+        return res.json({ valido: true });
+      }
+
+      return res.json({
+        valido: false,
+        erro: 'Código inválido'
+      });
     });
-  }
+
 });
 
 const PORT = process.env.PORT || 3000;
