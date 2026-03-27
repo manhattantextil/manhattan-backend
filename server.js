@@ -7,21 +7,25 @@ app.use(cors());
 app.use(express.json());
 
 // ================= VALIDAR =================
-app.post('/validar', async (req, res) => {
+app.post('/validar', (req, res) => {
   const { tipo, numero, codigoBarras, usuario } = req.body;
 
   if (!tipo || !numero || !codigoBarras) {
     return res.json({ valido: false, erro: 'Dados incompletos' });
   }
 
-  // 🔧 SIMULAÇÃO (até integrar com ERP)
+  // 🔥 SIMULAÇÃO TEMPORÁRIA
   if (codigoBarras === "123456") {
     return res.json({ valido: true });
   }
 
+  if (codigoBarras === "000000") {
+    return res.json({ valido: false, erro: "Produto não pertence ao pedido" });
+  }
+
   return res.json({
     valido: false,
-    erro: 'Código inválido'
+    erro: "Código não reconhecido"
   });
 });
 
