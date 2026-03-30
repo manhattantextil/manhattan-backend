@@ -20,7 +20,8 @@ app.post('/validar', async (req, res) => {
     const url = 'https://SEU_ERP_AQUI?wsdl';
 
     const client = await soap.createClientAsync(url);
-
+    client.setSecurity(new soap.BasicAuthSecurity('usuario', 'senha'));
+    
     // 🔧 AJUSTE CONFORME SEU ERP
     const args = {
       tipo,
