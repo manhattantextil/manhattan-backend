@@ -24,25 +24,47 @@ app.use(express.json());
 // ================= CACHE CLIENT =================
 
 let soapClient = null;
+let criandoClient = false;
 
-async function getClient() {
-  if (soapClient) return soapClient;
+async function getClient(force = false) {
+  if (soapClient && !force) return soapClient;
 
-  const url = 'https://SEU_ERP_AQUI?wsdl';
+  if (criandoClient) {
+    // evita múltiplas criações simultâneas
+    await new Promise(r => setTimeout(r, 500));
+    return getClient();
+  }
 
-  log("🔌 Criando cliente SOAP...");
+  try {
+    criandoClient = true;
 
-  soapClient = await soap.createClientAsync(url);
+    const url = 'https://SEU_ERP_AQUI?wsdl';
 
-  // 🔐 se precisar autenticação
-  soapClient.setSecurity(new soap.BasicAuthSecurity('user', 'pass'));
+    log("🔄 Criando novo client SOAP...");
 
-  return soapClient;
+    soapClient = await soap.createClientAsync(url);
+
+    // 🔐 se necessário
+    soapClient.setSecurity(new soap.BasicAuthSecurity('user', 'pass'));
+
+    log("✅ Client SOAP criado com sucesso");
+
+    return soapClient;
+
+  } catch (err) {
+    log("❌ Erro ao criar client: " + err.message);
+    throw err;
+
+  } finally {
+    criandoClient = false;
+  }
 }
 
 // ================= VALIDAR =================
-async function chamarERP(client, args, tentativas = 2) {
+async function chamarERP(args, tentativas = 2) {
   try {
+    const client = await getClient();
+
     const inicio = Date.now();
 
     const [result] = await client.ValidarCodigoAsync(args, {
@@ -55,11 +77,27 @@ async function chamarERP(client, args, tentativas = 2) {
     return result;
 
   } catch (err) {
-    log(`❌ Erro ERP: ${err.code || err.message}`);
+
+    const erro = err.code || err.message;
+
+    log(`❌ Erro ERP: ${erro}`);
+
+    // 💥 ERROS QUE INDICAM CLIENT QUEBRADO
+    const errosCriticos = [
+      'ECONNRESET',
+      'EPIPE',
+      'ENOTFOUND',
+      'ECONNREFUSED'
+    ];
+
+    if (errosCriticos.includes(err.code)) {
+      log("💥 Client inválido — recriando...");
+      soapClient = null; // força recriação
+    }
 
     if (tentativas > 0) {
       log(`🔁 Retry (${tentativas})`);
-      return chamarERP(client, args, tentativas - 1);
+      return chamarERP(args, tentativas - 1);
     }
 
     throw err;
@@ -74,26 +112,21 @@ app.post('/validar', async (req, res) => {
   }
 
   try {
-    const client = await getClient();
-
     const args = {
-      tipo: tipo,
-      numero: numero,
-      codigo: codigoBarras
+      tipo,
+      numero,
+      codigo: codigoBarras,
+      usuario
     };
 
     log(`📥 Validação: ${codigoBarras} | ${tipo} | ${numero}`);
 
-    const result = await chamarERP(client, args);
+    const result = await chamarERP(args);
 
-    if (result.valido === true) {
-      return res.json({ valido: true });
-    } else {
-      return res.json({
-        valido: false,
-        erro: result.mensagem || 'Código inválido'
-      });
-    }
+    return res.json({
+      valido: result.valido === true,
+      erro: result.valido ? null : (result.mensagem || 'Código inválido')
+    });
 
   } catch (err) {
 
