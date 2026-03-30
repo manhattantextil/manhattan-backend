@@ -7,26 +7,48 @@ app.use(cors());
 app.use(express.json());
 
 // ================= VALIDAR =================
-app.post('/validar', (req, res) => {
+const soap = require('soap');
+
+app.post('/validar', async (req, res) => {
   const { tipo, numero, codigoBarras, usuario } = req.body;
 
   if (!tipo || !numero || !codigoBarras) {
     return res.json({ valido: false, erro: 'Dados incompletos' });
   }
 
-  // 🔥 SIMULAÇÃO TEMPORÁRIA
-  if (codigoBarras === "123456") {
-    return res.json({ valido: true });
-  }
+  try {
+    const url = 'https://SEU_ERP_AQUI?wsdl';
 
-  if (codigoBarras === "000000") {
-    return res.json({ valido: false, erro: "Produto não pertence ao pedido" });
-  }
+    const client = await soap.createClientAsync(url);
 
-  return res.json({
-    valido: false,
-    erro: "Código não reconhecido"
-  });
+    // 🔧 AJUSTE CONFORME SEU ERP
+    const args = {
+      tipo,
+      numero,
+      codigo: codigoBarras
+    };
+
+    // 🔧 NOME DO MÉTODO DO ERP
+    const [result] = await client.ValidarCodigoAsync(args);
+
+    // 🔧 AJUSTAR RESPOSTA CONFORME ERP
+    if (result.valido === true) {
+      return res.json({ valido: true });
+    } else {
+      return res.json({
+        valido: false,
+        erro: result.mensagem || 'Código inválido'
+      });
+    }
+
+  } catch (err) {
+    console.error(err);
+
+    return res.json({
+      valido: false,
+      erro: 'Erro ao comunicar com ERP (SOAP)'
+    });
+  }
 });
 
 // ================= LOGIN =================
