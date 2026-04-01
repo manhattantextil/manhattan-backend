@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const soap = require('soap');
 
 const logFile = path.join(__dirname, 'logs.txt');
 
@@ -67,14 +68,14 @@ async function chamarERP(args, tentativas = 2) {
 
     const inicio = Date.now();
 
-    console.log("chamar ERP: " + args);
+    // console.log("chamar ERP: " + args);
 
-    const [result] = await client.expedicaoLeituras(args, {
+    const [result] = await client.expedicaoLeiturasAsync(args, {
       timeout: 5000
     });
 
     const tempo = Date.now() - inicio;
-    log(`✅ ERP respondeu em ${tempo}ms`);
+    // log(`✅ ERP respondeu em ${tempo}ms`);
 
     return result;
 
@@ -93,12 +94,12 @@ async function chamarERP(args, tentativas = 2) {
     ];
 
     if (errosCriticos.includes(err.code)) {
-      log("💥 Client inválido — recriando...");
+      // log("💥 Client inválido — recriando...");
       soapClient = null; // força recriação
     }
 
     if (tentativas > 0) {
-      log(`🔁 Retry (${tentativas})`);
+      // log(`🔁 Retry (${tentativas})`);
       return chamarERP(args, tentativas - 1);
     }
 
@@ -116,13 +117,19 @@ app.post('/validar', async (req, res) => {
 
   try {
     const args = {
-      codEmp: 1,
-      codFil: codFil,
-      numPed: numPed,
-      codBar: codBar
+      user: "leitor.expedicao",
+      password: "exped0104",
+      encryption: 0,
+
+      parameters: {
+        codEmp: 1,
+        codFil,
+        numPed,
+        codBar
+      }
     };
 
-    log(`📥 Validação: ${codigoBarras} | ${tipo} | ${numero}`);
+    // log(`📥 Validação: ${codigoBarras} | ${tipo} | ${numero}`);
 
     const result = await chamarERP(args);
 
