@@ -38,14 +38,15 @@ async function getClient(force = false) {
   try {
     criandoClient = true;
 
-    const url = 'https://SEU_ERP_AQUI?wsdl';
+    const url = 'https://web02s1p.seniorcloud.com.br:30781/g5-senior-services/sapiens_Synccom_manhattan?wsdl';
 
     log("🔄 Criando novo client SOAP...");
 
     soapClient = await soap.createClientAsync(url);
 
     // 🔐 se necessário
-    soapClient.setSecurity(new soap.BasicAuthSecurity('user', 'pass'));
+    soapClient.setSecurity(new soap.BasicAuthSecurity('leitor.expedicao', 'exped0104'));
+    soapClient.setEndpoint('https://web02s1p.seniorcloud.com.br:30781/g5-senior-services/sapiens_Synccom_manhattan');
 
     log("✅ Client SOAP criado com sucesso");
 
@@ -105,18 +106,18 @@ async function chamarERP(args, tentativas = 2) {
 }
 
 app.post('/validar', async (req, res) => {
-  const { tipo, numero, codigoBarras, usuario } = req.body;
+  const {codFil, numPed, codBar, usuario } = req.body;
 
-  if (!tipo || !numero || !codigoBarras) {
+  if (!codFil || !numPed || !codBar) {
     return res.json({ valido: false, erro: 'Dados incompletos' });
   }
 
   try {
     const args = {
-      tipo,
-      numero,
-      codigo: codigoBarras,
-      usuario
+      codEmp: 1,
+      codFil: codFil,
+      numPed: numPed,
+      codBar: codBar
     };
 
     log(`📥 Validação: ${codigoBarras} | ${tipo} | ${numero}`);
