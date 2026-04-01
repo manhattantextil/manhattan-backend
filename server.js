@@ -44,7 +44,6 @@ async function getClient(force = false) {
 
     soapClient = await soap.createClientAsync(url);
 
-    // 🔐 se necessário
     soapClient.setSecurity(new soap.BasicAuthSecurity('leitor.expedicao', 'exped0104'));
     soapClient.setEndpoint('https://web02s1p.seniorcloud.com.br:30781/g5-senior-services/sapiens_Synccom_manhattan');
 
@@ -68,7 +67,7 @@ async function chamarERP(args, tentativas = 2) {
 
     const inicio = Date.now();
 
-    const [result] = await client.ValidarCodigoAsync(args, {
+    const [result] = await client.expedicaoLeituras(args, {
       timeout: 5000
     });
 
