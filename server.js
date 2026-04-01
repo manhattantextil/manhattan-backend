@@ -67,7 +67,7 @@ async function chamarERP(args, tentativas = 2) {
 
     const inicio = Date.now();
 
-console.log(args);
+    console.log("chamar ERP: " + args);
 
     const [result] = await client.expedicaoLeituras(args, {
       timeout: 5000
@@ -108,7 +108,8 @@ console.log(args);
 
 app.post('/validar', async (req, res) => {
   const {codFil, numPed, codBar, usuario } = req.body;
-
+  
+  console.log("/validar: " + req.body);
   if (!codFil || !numPed || !codBar) {
     return res.json({ valido: false, erro: 'Dados incompletos' });
   }
