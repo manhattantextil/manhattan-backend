@@ -67,6 +67,8 @@ async function chamarERP(args, tentativas = 2) {
 
     const inicio = Date.now();
 
+console.log(args);
+
     const [result] = await client.expedicaoLeituras(args, {
       timeout: 5000
     });
