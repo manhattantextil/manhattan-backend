@@ -1,0 +1,98 @@
+[2026-04-01T18:47:06.461Z] 🔄 Criando novo client SOAP...
+[2026-04-01T18:47:07.509Z] ✅ Client SOAP criado com sucesso
+[2026-04-01T18:56:59.389Z] 🚀 Servidor rodando na porta 3000
+[2026-04-01T18:57:13.107Z] 📥 Validar: 1 | 1 | 123123123123123
+[2026-04-01T18:57:13.108Z] 🔄 Criando client SOAP...
+[2026-04-01T18:57:14.148Z] ✅ Client SOAP criado
+[2026-04-01T18:57:15.874Z] ✅ ERP respondeu em 1725ms
+[2026-04-01T18:57:15.875Z] 📦 Retorno ERP: {"result":{"dadosRetorno":{"mensagem":"Etiqueta não localizada! Verifique.","pedidoFinalizado":"NAO"}}}
+[2026-04-01T19:00:45.648Z] 📥 Validar: 1 | 1 | 123123123123123
+[2026-04-01T19:00:47.186Z] ✅ ERP respondeu em 1537ms
+[2026-04-01T19:00:47.186Z] 📦 Retorno ERP: {"result":{"dadosRetorno":{"mensagem":"Etiqueta não localizada! Verifique.","pedidoFinalizado":"NAO"}}}
+[2026-04-01T19:02:58.895Z] 🚀 Servidor rodando na porta 3000
+[2026-04-01T19:03:07.221Z] 📥 Validar: 1 | 1 | 123123123123123
+[2026-04-01T19:03:07.221Z] 🔄 Criando client SOAP...
+[2026-04-01T19:03:08.270Z] ✅ Client SOAP criado
+[2026-04-01T19:03:09.629Z] ✅ ERP respondeu em 1358ms
+[2026-04-01T19:03:09.629Z] 📦 Retorno ERP: {"result":{"dadosRetorno":{"mensagem":"Etiqueta não localizada! Verifique.","pedidoFinalizado":"NAO"}}}
+[2026-04-01T19:03:37.121Z] 📥 Validar: 1 | 1 | 123456465465464
+[2026-04-01T19:03:38.024Z] ✅ ERP respondeu em 902ms
+[2026-04-01T19:03:38.024Z] 📦 Retorno ERP: {"result":{"dadosRetorno":{"mensagem":"Etiqueta não localizada! Verifique.","pedidoFinalizado":"NAO"}}}
+[2026-04-01T19:20:18.305Z] 🚀 Servidor rodando na porta 3000
+[2026-04-01T19:22:22.881Z] 🚀 Servidor rodando na porta 3000
+[2026-04-01T19:23:32.048Z] 📥 Validar: 1 | 1 | 123123123123123
+[2026-04-01T19:23:32.049Z] 🔄 Criando client SOAP...
+[2026-04-01T19:23:33.087Z] ✅ Client SOAP criado
+[2026-04-01T19:23:34.482Z] ✅ ERP respondeu em 1395ms
+[2026-04-01T19:23:34.483Z] 📦 Retorno ERP: {"result":{"dadosRetorno":{"mensagem":"Etiqueta não localizada! Verifique.","pedidoFinalizado":"NAO"}}}
+[2026-04-01T19:27:14.183Z] 📥 Validar: 1 | 123 | 123123123123123
+[2026-04-01T19:27:15.479Z] ✅ ERP respondeu em 1296ms
+[2026-04-01T19:27:15.479Z] 📦 Retorno ERP: {"result":{"dadosRetorno":{"mensagem":"Etiqueta não localizada! Verifique.","pedidoFinalizado":"NAO"}}}
+[2026-04-01T19:31:55.185Z] 🚀 Servidor rodando na porta 3000
+[2026-04-27T18:59:19.619Z] 🚀 Servidor rodando na porta 3000
+[2026-04-27T19:22:49.200Z] 🚀 Servidor rodando na porta 3000
+[2026-04-27T19:42:22.044Z] 🚀 Servidor rodando na porta 3000
+[2026-04-29T13:52:41.219Z] 📥 Validar: 1 | 4475 | 254587452544444
+[2026-04-29T13:52:41.242Z] 🔄 Criando client SOAP...
+[2026-04-29T13:52:43.287Z] ✅ Client SOAP criado
+[2026-04-29T13:52:44.649Z] ✅ ERP respondeu em 1359ms
+[2026-04-29T13:52:44.651Z] 📦 Retorno ERP: {"result":{"dadosRetorno":null,"erroExecucao":"Ocorreu um erro ao executar o serviço \" \": Win32 Error.  Code: 109.\nThe pipe has been ended"}}
+[2026-04-29T13:56:00.601Z] 📥 Validar: 1 | 4475 | 786565647897454
+[2026-04-29T13:56:05.889Z] ✅ ERP respondeu em 5268ms
+[2026-04-29T13:56:05.891Z] 📦 Retorno ERP: {"result":{"dadosRetorno":{"mensagem":"Etiqueta não localizada! Verifique.","pedidoFinalizado":"NAO"}}}
+[2026-04-29T13:57:30.027Z] 🚀 Servidor rodando na porta 3000
+[2026-04-29T13:58:05.660Z] 🚀 Servidor rodando na porta 3000
+[2026-04-29T14:11:29.193Z] 🚀 Servidor rodando na porta 3000
+[2026-04-29T14:13:38.134Z] 🚀 Servidor rodando na porta 3000
+[2026-04-29T14:14:02.641Z] 📥 Validar: 1 | 4775 | 656226989586565
+[2026-04-29T14:14:02.642Z] 🔄 Criando client SOAP...
+[2026-04-29T14:14:03.684Z] ✅ Client SOAP criado
+[2026-04-29T14:14:05.197Z] ✅ ERP respondeu em 1503ms
+[2026-04-29T14:14:05.200Z] 📦 Retorno ERP: {"result":{"dadosRetorno":{"mensagem":"Etiqueta não localizada! Verifique.","pedidoFinalizado":"NAO"}}}
+[2026-04-29T14:16:18.355Z] 📥 Validar: 1 | 4775 | 456656565566556
+[2026-04-29T14:16:20.726Z] ✅ ERP respondeu em 2363ms
+[2026-04-29T14:16:20.728Z] 📦 Retorno ERP: {"result":{"dadosRetorno":{"mensagem":"Etiqueta não localizada! Verifique.","pedidoFinalizado":"NAO"}}}
+[2026-04-29T14:16:29.428Z] 📥 Validar: 1 |  | 926568655665655
+[2026-04-29T14:28:50.366Z] 🚀 Servidor rodando na porta 3000
+[2026-04-29T14:29:45.002Z] 📥 Validar: 1 | 4775 | 563265552698874
+[2026-04-29T14:29:45.005Z] 🔄 Criando client SOAP...
+[2026-04-29T14:29:46.298Z] ✅ Client SOAP criado
+[2026-04-29T14:29:47.218Z] ✅ ERP respondeu em 903ms
+[2026-04-29T14:29:47.219Z] 📦 Retorno ERP: {"result":{"dadosRetorno":{"mensagem":"Etiqueta não localizada! Verifique.","pedidoFinalizado":"NAO"}}}
+[2026-04-29T14:36:11.267Z] 🚀 Servidor rodando na porta 3000
+[2026-04-29T15:03:30.499Z] 📥 Validar: 1 | 4775 | 566365562656532
+[2026-04-29T15:03:30.510Z] 🔄 Criando client SOAP...
+[2026-04-29T15:03:31.807Z] ✅ Client SOAP criado
+[2026-04-29T15:03:32.934Z] ✅ ERP respondeu em 1125ms
+[2026-04-29T15:03:32.936Z] 📦 Retorno ERP: {"result":{"dadosRetorno":{"mensagem":"Etiqueta não localizada! Verifique.","pedidoFinalizado":"NAO"}}}
+[2026-04-29T19:48:39.151Z] 📥 Validar: 1 | 4775 | 565656522565565
+[2026-04-29T19:48:41.602Z] ✅ ERP respondeu em 2390ms
+[2026-04-29T19:48:41.605Z] 📦 Retorno ERP: {"result":{"dadosRetorno":{"mensagem":"Etiqueta não localizada! Verifique.","pedidoFinalizado":"NAO"}}}
+[2026-04-29T19:48:46.902Z] 📥 Validar: 1 | 4775 | 124551221563232
+[2026-04-29T19:48:48.050Z] ✅ ERP respondeu em 1147ms
+[2026-04-29T19:48:48.051Z] 📦 Retorno ERP: {"result":{"dadosRetorno":{"mensagem":"Etiqueta não localizada! Verifique.","pedidoFinalizado":"NAO"}}}
+[2026-04-29T19:54:03.036Z] 🚀 Servidor rodando na porta 3000
+[2026-04-29T19:55:45.794Z] 🚀 Servidor rodando na porta 3000
+[2026-05-04T17:09:46.874Z] 🚀 Servidor rodando na porta 3000
+[2026-05-04T17:36:25.268Z] 🚀 Servidor rodando na porta 3000
+[2026-05-04T17:39:31.786Z] 🚀 Servidor rodando na porta 3000
+[2026-05-04T17:40:33.499Z] 🚀 Servidor rodando na porta 3000
+[2026-05-04T17:41:43.857Z] 🚀 Servidor rodando na porta 3000
+[2026-05-04T17:42:45.915Z] 📥 Validar: 1 | 4569 | 958415213984562
+[2026-05-04T17:42:45.917Z] 🔄 Criando client SOAP...
+[2026-05-04T17:42:46.792Z] ✅ Client SOAP criado
+[2026-05-04T17:42:48.832Z] ✅ ERP respondeu em 2036ms
+[2026-05-04T17:42:48.834Z] 📦 Retorno ERP: {"result":{"dadosRetorno":{"mensagem":"Etiqueta não localizada! Verifique.","pedidoFinalizado":"NAO"}}}
+[2026-05-04T17:43:08.463Z] 🚀 Servidor rodando na porta 3000
+[2026-05-04T17:44:23.729Z] 🚀 Servidor rodando na porta 3000
+[2026-05-04T17:46:11.546Z] 🚀 Servidor rodando na porta 3000
+[2026-05-04T17:46:27.369Z] 🔄 Criando client SOAP...
+[2026-05-04T17:46:27.368Z] 📥 Validar: 1 | 5497 | 846464946464995
+[2026-05-04T17:46:28.700Z] ✅ Client SOAP criado
+[2026-05-04T17:46:30.176Z] ✅ ERP respondeu em 1472ms
+[2026-05-04T17:46:30.178Z] 📦 Retorno ERP: {"result":{"dadosRetorno":{"mensagem":"Etiqueta não localizada! Verifique.","pedidoFinalizado":"NAO"}}}
+[2026-05-04T17:47:26.106Z] 📥 Validar: 1 | 4789 | 024103002710688
+[2026-05-04T17:47:27.225Z] ✅ ERP respondeu em 1117ms
+[2026-05-04T17:47:27.226Z] 📦 Retorno ERP: {"result":{"dadosRetorno":{"mensagem":"Procduto/Deriv. lido não consta neste pedido! Verifique.","pedidoFinalizado":"NAO"}}}
+[2026-05-04T20:05:48.395Z] 🚀 Servidor rodando na porta 3000
+[2026-05-04T20:08:30.619Z] 🚀 Servidor rodando na porta 3000

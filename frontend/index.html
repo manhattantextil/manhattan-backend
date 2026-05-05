@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#007BFF">
+<link rel="manifest" href="manifest.json">
+<title>Leitor Manhattan</title>
+<script src="https://unpkg.com/html5-qrcode"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<style>
+body{
+  font-family:Arial;
+  margin:0;
+  background:#121212;
+  color:#fff;
+}
+
+.container{
+  max-width:500px;
+  margin:auto;
+  padding:15px;
+  background:#1e1e1e;
+  min-height:100vh;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+input, button{
+  width:100%;
+  padding:12px;
+  margin-top:8px;
+  font-size:16px;
+  border-radius:8px;
+  border:none;
+}
+
+input{
+  background:#2a2a2a;
+  color:#fff;
+  border:1px solid #444;
+}
+
+input::placeholder{
+  color:#aaa;
+}
+
+button{
+  background:#000;
+  color:#fff;
+  border:1px solid #555;
+}
+
+button:active{
+  transform:scale(0.98);
+}
+
+/* BOTÕES TIPO (entrada/saída) */
+.tipoBtn{
+  flex:1;
+  padding:15px;
+  font-size:16px;
+  border:2px solid #555;
+  background:#2a2a2a;
+  color:#fff;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:bold;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+}
+
+.tipoBtn.ativo{
+  background:#fff;
+  color:#000;
+}
+
+.campoGrupo{
+  margin-top:12px;
+}
+
+.campoGrupo label{
+  display:block;
+  margin-bottom:6px;
+  font-size:14px;
+  font-weight:bold;
+  color:#ccc;
+}
+
+#codigoInput{
+  font-size:20px;
+  font-weight:bold;
+  border:2px solid #666;
+}
+
+</style>
+</head>
+<body>
+
+<!-- <div class="container" id="login">
+<h2>Login</h2>
+<input id="user" placeholder="Usuário">
+<input id="pass" type="password" placeholder="Senha">
+<button onclick="login()">Entrar</button>
+</div> -->
+
+<div class="container" id="app"> <!--style="display:none"-->
+<h2 id="userInfo">Expedição Manhattan</h2>
+
+<div id="tipoContainer" style="display:flex; gap:10px; margin-top:10px;">
+  
+  <button type="button" class="tipoBtn ativo" data-value="saida">
+    📦 Pedido
+  </button>
+
+  <button type="button" class="tipoBtn" data-value="entrada">
+    🧾 Ordem de Compra
+  </button>
+
+</div>
+
+<div class="campoGrupo">
+  <label for="filialInput">🏢 Filial</label>
+  <input 
+    id="filialInput"
+    placeholder="Digite a filial"
+    inputmode="numeric"
+    pattern="[0-9]*">
+</div>
+
+<div class="campoGrupo">
+  <label for="numeroInput">📦 Número do Pedido / OC</label>
+  <input 
+    id="numeroInput"
+    placeholder="Digite o número"
+    inputmode="numeric"
+    pattern="[0-9]*">
+</div>
+
+<div class="campoGrupo">
+  <label for="codigoInput">🏷 Código Lido</label>
+  <input 
+    id="codigoInput"
+    placeholder="Leia ou digite o código"
+    inputmode="numeric"
+    maxlength="15"
+    pattern="[0-9]*"
+    style="font-size:18px; font-weight:bold;">
+</div>
+
+<div id="mensagem" 
+    style="
+    margin-top:10px;
+    font-weight:bold;
+    font-size:18px;
+    padding:10px;
+    border-radius:8px;
+    background:#2a2a2a;
+    text-align:center;
+    ">
+    </div>
+<div id="ultimoCodigo" style="margin-top:10px; font-size:14px; color:#aaa;">
+  Última etiqueta lida: 
+</div>
+
+<button type="button" id="btnLimparCodigo" onclick="limparCodigo()">
+  🗑 Limpar Código
+</button>
+
+<button onclick="validarCodigo()">✅ Validar</button>
+<!-- <button onclick="camera()">📷 Câmera</button> -->
+<!-- <button onclick="logout()">🚪 Sair</button> -->
+
+<audio id="somOk">
+  <source src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg" type="audio/ogg">
+</audio>
+
+<audio id="somErro" preload="auto">
+  <source src="sounds/erro_forte.wav" type="audio/wav">
+</audio>
+
+<script>
+
+  let tipoSelecionado = "saida";
+
+  document.querySelectorAll('.tipoBtn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      
+      document.querySelectorAll('.tipoBtn').forEach(b => b.classList.remove('ativo'));
+      
+      btn.classList.add('ativo');
+      
+      tipoSelecionado = btn.dataset.value;
+    });
+  });
+
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.register('sw.js');
+  }
+
+  // let usuario=null;
+  // const dados=[];
+
+  // async function login(){
+  //   console.log("tentando logar...");
+
+  //   const res = await fetch('http://localhost:3000/login',{
+  //     method:'POST',
+  //     headers:{'Content-Type':'application/json'},
+  //     body: JSON.stringify({
+  //       user: user.value,
+  //       pass: pass.value
+  //     })
+  //   });
+
+  //   const r = await res.json();
+
+  //   if(!r.ok){
+  //     alert(r.erro);
+  //     return;
+  //   }
+
+  //   usuario = r.usuario;
+  //   localStorage.setItem('u',usuario);
+  //   mostrar();
+  // }
+
+  // function logout(){
+  //   usuario=null;
+  //   localStorage.removeItem('u');
+  //   mostrar();
+  // }
+
+  // function mostrar(){
+    
+  //   const loginDiv = document.getElementById('login');
+  //   const appDiv = document.getElementById('app');
+
+  //   if (!loginDiv || !appDiv) {
+  //     console.error("Elemento não encontrado");
+  //     return;
+  //   }
+
+  //   loginDiv.style.display=usuario?'none':'block';
+  //   appDiv.style.display=usuario?'block':'none';
+
+  //   if(usuario) 
+  //     userInfo.innerText='bem vindo, '+usuario;
+  // }
+
+  window.onload = () => {
+    codigoInput.focus();
+  };
+
+  function limparCodigo() {
+    codigoInput.value = "";
+    codigoInput.focus();
+
+    const msg = document.getElementById('mensagem');
+    msg.innerText = "";
+  }
+
+  async function validarCodigo(){
+
+    const codigo = codigoInput.value.trim();
+    const msg = document.getElementById('mensagem');
+
+    if(!codigo){
+      msg.innerText = "Informe o código";
+      msg.style.color = "orange";
+      return;
+    }
+
+    // valida tamanho
+    if(codigo.length !== 13 && codigo.length !== 14 && codigo.length !== 15){
+      msg.innerText = "❌ Código deve ter 13, 14 ou 15 dígitos";
+      msg.style.color = "red";
+
+      const somErro = document.getElementById('somErro');
+      somErro.currentTime = 0;
+      somErro.play();
+
+      codigoInput.focus();
+      return;
+    }
+
+    msg.innerText = "⏳ Validando...";
+    msg.style.color = "#ccc";
+
+    const inicio = Date.now();
+
+    try{
+
+      const res = await fetch('/validar',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({
+          codFil: filialInput.value,
+          numPed: numeroInput.value,
+          codBar: codigo,
+          usuario: usuario
+        })
+      });
+
+      const r = await res.json();
+
+      const tempo = Date.now() - inicio;
+
+      const ultimo = document.getElementById('ultimoCodigo');
+      ultimo.innerText = "Última etiqueta lida: " + codigo;
+
+      const somErro = document.getElementById('somErro');
+      const somOk = document.getElementById('somOk');
+
+      if(r.valido){
+
+        msg.innerText = "✔ " + (r.mensagem || "Código válido") + " ("+tempo+"ms)";
+        msg.style.color = "#00ff88";
+
+        somOk.currentTime = 0;
+        somOk.play();
+
+      } else {
+
+        msg.innerText = "❌ " + r.erro;
+        msg.style.color = "#ff4d4d";
+
+        somErro.currentTime = 0;
+        somErro.play();
+
+        if (navigator.vibrate) {
+          navigator.vibrate([200,100,200]);
+        }
+      }
+
+    } catch(e){
+
+      msg.innerText = "⚠ Erro de comunicação com servidor";
+      msg.style.color = "orange";
+
+    }
+
+    codigoInput.value = "";
+    codigoInput.focus();
+  }
+
+  function camera(){
+    const qr=new Html5Qrcode('hist');
+    qr.start({facingMode:'environment'},{fps:10},txt=>{
+    qr.stop();
+    validar(txt);
+    });
+  }
+
+  ['di','df','status','fCod','fNum'].forEach(id=>{
+    document.addEventListener('input',e=>{if(e.target.id===id)filtrar();});
+  });
+
+  window.onload=()=>{
+    usuario=localStorage.getItem('u');
+    mostrar();
+  }
+
+  codigoInput.addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+      validarCodigo();
+    }
+  });
+
+</script>
+
+</body>
+</html>
